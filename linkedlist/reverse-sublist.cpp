@@ -1,47 +1,78 @@
+#include "linked-list.h"
 #include <cstdint>
 #include <cstdio>
-#include "linked-list.h"
+#include <iostream>
 
-Node* const reverse(Node* const head, uint32_t posLeft, uint32_t posRight)
+Node* const reverse(LinkedList& list, uint32_t posLeft, uint32_t posRight)
 {
-    if ((nullptr == head) || (posLeft == posRight))
+    if ((nullptr == list.head) || (posLeft == posRight))
     {
         //
     }
     else
     {
-        Node* prev    = nullptr;
-        Node* current = head;
+        Node* start   = nullptr;
+        Node* prev   = nullptr;
+        Node* current = list.head;
         Node* newTail = nullptr;
 
-        for (uint32_t idx = 0; (nullptr != current) && (idx < posLeft); ++idx)
+        for (uint32_t idx = 1; (nullptr != current) && (idx < posLeft); ++idx)
         {
-            prev    = current;
+            prev = current;
             current = current->next;
         }
 
-        newTail = current;
+        start = current;
+        newTail    = current;
         Node* next = nullptr;
-        for (uint32_t idx = posLeft; (nullptr != current) && (idx < posLeft); ++idx) {
-            next = current->next;
+        for (uint32_t idx = 0U; (nullptr != current) && (idx <= (posRight - posLeft)); ++idx)
+        {
+            next          = current->next;
             current->next = newTail;
+            printf("Linking %d -> %d\n", current->data, newTail->data);
             newTail = current;
             current = next;
         }
-        prev->next = newTail;
+
+
+        /* Reverse from list.head */
+        if (nullptr == prev)
+        {
+            // printf("Prev: %d, start: %d, newTail %d, current %d\n", 0, start->data, newTail->data, current->data);
+            list.head = newTail;
+        }
+        else
+        {
+            // printf("Prev: %d, start: %d, newTail %d, current %d\n", prev->data, start->data, newTail->data, current->data);
+            prev->next = newTail;
+        }
+
+        /* Initial node is prev->next */
+        start->next = current;
     }
-    return head;
+    return list.head;
 }
 
 int main()
 {
-    Node* const head = readList();
-    printList(head);
+    LinkedList list;
 
-    Node* const middle = reverse(head, 2, 5);
+    list.insert(1);
+    list.insert(2);
+    list.insert(3);
+    list.insert(4);
+    list.insert(5);
+    list.insert(6);
+    list.insert(7);
+    list.insert(8);
 
-    printList(middle);
-    freeList(head);
+    std::cout << "List: " << list << std::endl;
+
+    printf("Reversing list from %d -> %d\n", 1, 1);
+
+    reverse(list, 2, 4);
+
+    std::cout << "List: " << list << std::endl;
 
     return (0);
 }
