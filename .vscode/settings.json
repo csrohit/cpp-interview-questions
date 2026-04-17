@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "ostream": "cpp"
+    },
+    "chat.tools.terminal.autoApprove": {
+        "g++": true
     }
 }
