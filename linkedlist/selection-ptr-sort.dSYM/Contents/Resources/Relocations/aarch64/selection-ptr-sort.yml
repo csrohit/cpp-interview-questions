@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/superuser/code/interview/linkedlist/selection-ptr-sort'
-relocations:     []
-...
